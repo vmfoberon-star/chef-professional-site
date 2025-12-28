@@ -197,7 +197,6 @@ if (bookingForm) {
         
         // Get event type text
         const eventTypeTexts = {
-            wedding: currentLang === 'ru' ? 'Свадьба' : currentLang === 'en' ? 'Wedding' : 'חתונה',
             birthday: currentLang === 'ru' ? 'День рождения' : currentLang === 'en' ? 'Birthday' : 'יום הולדת',
             corporate: currentLang === 'ru' ? 'Корпоратив' : currentLang === 'en' ? 'Corporate' : 'אירוע חברה',
             private: currentLang === 'ru' ? 'Частное мероприятие' : currentLang === 'en' ? 'Private Event' : 'אירוע פרטי'
