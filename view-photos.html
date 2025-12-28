@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просмотр фотографий шефа</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a0f0a 0%, #2c1810 100%);
+            color: #fff;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #d4a574 0%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .instructions {
+            background: rgba(212, 165, 116, 0.1);
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .instructions h2 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+        
+        .instructions ul {
+            margin-left: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .photo-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .photo-item:hover {
+            border-color: #ffd700;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .photo-item.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .photo-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        
+        .photo-name {
+            font-size: 0.9rem;
+            color: #d4a574;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+        }
+        
+        .photo-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-select {
+            background: linear-gradient(135deg, #d4a574 0%, #ffd700 100%);
+            color: #1a0f0a;
+        }
+        
+        .btn-select:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .btn-hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: #fff;
+        }
+        
+        .btn-hero:hover {
+            transform: scale(1.05);
+        }
+        
+        .selected-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffd700;
+            color: #1a0f0a;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        
+        .summary {
+            background: rgba(212, 165, 116, 0.1);
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .summary h2 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+        
+        .summary-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        
+        .summary-item strong {
+            color: #d4a574;
+        }
+        
+        .apply-btn {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #d4a574 0%, #ffd700 100%);
+            color: #1a0f0a;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .apply-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        .apply-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 Выбор фотографий для сайта</h1>
+        
+        <div class="instructions">
+            <h2>Инструкция:</h2>
+            <p>Просмотрите все фотографии и выберите лучшие для размещения на сайте:</p>
+            <ul>
+                <li><strong>Главная фотография (Hero/About):</strong> Нажмите "Для Hero" - выберите 1 лучшую профессиональную фотографию шефа</li>
+                <li><strong>Галерея:</strong> Нажмите "Выбрать" на фотографиях - выберите 6-12 лучших фотографий блюд и мероприятий</li>
+            </ul>
+            <p>После выбора нажмите кнопку "Применить выбранные фотографии" внизу страницы.</p>
+        </div>
+        
+        <div class="photo-grid" id="photoGrid"></div>
+        
+        <div class="summary" id="summary" style="display: none;">
+            <h2>Выбранные фотографии:</h2>
+            <div id="summaryContent"></div>
+            <button class="apply-btn" id="applyBtn" onclick="applyPhotos()">Применить выбранные фотографии</button>
+        </div>
+    </div>
+    
+    <script>
+        const photos = [
+            'OPL_8074.jpg', 'OPL_8076.jpg', 'OPL_8080.jpg', 'OPL_8084.jpg', 'OPL_8085.jpg',
+            'OPL_8455.jpg', 'OPL_8459.jpg', 'OPL_8462.jpg', 'OPL_8465.jpg', 'OPL_8470.jpg',
+            'OPL_8475.jpg', 'OPL_8479.jpg', 'OPL_8499.jpg', 'OPL_8502.jpg', 'OPL_8503.jpg',
+            'OPL_8505.jpg', 'OPL_8509.jpg', 'OPL_8511.jpg', 'OPL_8514.jpg', 'OPL_8520.jpg',
+            'OPL_8577.jpg', 'OPL_8583.jpg', 'OPL_8587.jpg', 'OPL_8588.jpg', 'OPL_8590.jpg',
+            'OPL_8603.jpg', 'OPL_8606.jpg', 'OPL_8607.jpg', 'OPL_8608.jpg', 'OPL_8610.jpg',
+            'OPL_8628.jpg', 'OPL_8630.jpg', 'OPL_8632.jpg', 'OPL_8680.jpg', 'OPL_8684.jpg',
+            'OPL_8686.jpg', 'OPL_8694.jpg', 'OPL_8701.jpg', 'OPL_8702.jpg'
+        ];
+        
+        let selectedHero = null;
+        let selectedGallery = [];
+        
+        const photoGrid = document.getElementById('photoGrid');
+        
+        photos.forEach((photo, index) => {
+            const item = document.createElement('div');
+            item.className = 'photo-item';
+            item.dataset.photo = photo;
+            
+            item.innerHTML = `
+                <img src="images/chef-photos/${photo}" alt="${photo}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23d4a574%22 width=%22200%22 height=%22200%22/%3E%3Ctext fill=%22%23fff%22 font-family=%22Arial%22 font-size=%2214%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EЗагрузка...%3C/text%3E%3C/svg%3E'">
+                <div class="photo-name">${photo}</div>
+                <div class="photo-actions">
+                    <button class="btn btn-hero" onclick="selectHero('${photo}', this)">Для Hero</button>
+                    <button class="btn btn-select" onclick="toggleGallery('${photo}', this)">Выбрать</button>
+                </div>
+            `;
+            
+            photoGrid.appendChild(item);
+        });
+        
+        function selectHero(photo, btn) {
+            // Remove previous selection
+            if (selectedHero) {
+                const prevItem = document.querySelector(`[data-photo="${selectedHero}"]`);
+                if (prevItem) {
+                    prevItem.classList.remove('selected');
+                    prevItem.querySelector('.btn-hero').textContent = 'Для Hero';
+                }
+            }
+            
+            // Select new
+            selectedHero = photo;
+            const item = btn.closest('.photo-item');
+            item.classList.add('selected');
+            btn.textContent = '✓ Выбрано';
+            
+            updateSummary();
+        }
+        
+        function toggleGallery(photo, btn) {
+            const index = selectedGallery.indexOf(photo);
+            const item = btn.closest('.photo-item');
+            
+            if (index > -1) {
+                selectedGallery.splice(index, 1);
+                item.classList.remove('selected');
+                btn.textContent = 'Выбрать';
+            } else {
+                selectedGallery.push(photo);
+                item.classList.add('selected');
+                btn.textContent = '✓ Выбрано';
+            }
+            
+            updateSummary();
+        }
+        
+        function updateSummary() {
+            const summary = document.getElementById('summary');
+            const summaryContent = document.getElementById('summaryContent');
+            const applyBtn = document.getElementById('applyBtn');
+            
+            if (selectedHero || selectedGallery.length > 0) {
+                summary.style.display = 'block';
+                
+                let html = '';
+                
+                if (selectedHero) {
+                    html += `<div class="summary-item">
+                        <strong>Главная фотография (Hero/About):</strong><br>
+                        ${selectedHero}
+                    </div>`;
+                }
+                
+                if (selectedGallery.length > 0) {
+                    html += `<div class="summary-item">
+                        <strong>Галерея (${selectedGallery.length} фото):</strong><br>
+                        ${selectedGallery.join(', ')}
+                    </div>`;
+                }
+                
+                summaryContent.innerHTML = html;
+                
+                // Enable button if we have at least hero or gallery
+                applyBtn.disabled = !selectedHero && selectedGallery.length === 0;
+            } else {
+                summary.style.display = 'none';
+            }
+        }
+        
+        function applyPhotos() {
+            if (!selectedHero && selectedGallery.length === 0) {
+                alert('Пожалуйста, выберите хотя бы одну фотографию!');
+                return;
+            }
+            
+            const data = {
+                hero: selectedHero,
+                gallery: selectedGallery
+            };
+            
+            // Save to localStorage and show message
+            localStorage.setItem('selectedPhotos', JSON.stringify(data));
+            
+            alert(`Выбрано:\n- Главная: ${selectedHero || 'не выбрано'}\n- Галерея: ${selectedGallery.length} фото\n\nТеперь я применю эти фотографии на сайте!`);
+            
+            // Close window or redirect
+            window.close();
+        }
+    </script>
+</body>
+</html>
+
