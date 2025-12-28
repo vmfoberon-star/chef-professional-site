@@ -41,6 +41,92 @@ body {
     cursor: default;
 }
 
+/* Увеличение шрифта для иврита */
+html[lang="he"] body,
+html[dir="rtl"] body {
+    font-size: 1.05em;
+}
+
+html[lang="he"] .nav-link,
+html[dir="rtl"] .nav-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+html[lang="he"] .logo-img,
+html[dir="rtl"] .logo-img {
+    height: 70px;
+    width: 70px;
+}
+
+html[lang="he"] .logo-text-img,
+html[dir="rtl"] .logo-text-img {
+    height: 65px;
+}
+
+html[lang="he"] .hero-title,
+html[dir="rtl"] .hero-title {
+    font-size: 7.5rem;
+}
+
+html[lang="he"] .hero-description,
+html[dir="rtl"] .hero-description {
+    font-size: 1.45rem;
+}
+
+html[lang="he"] .section-title,
+html[dir="rtl"] .section-title {
+    font-size: 6rem;
+}
+
+html[lang="he"] .section-description,
+html[dir="rtl"] .section-description {
+    font-size: 1.3rem;
+}
+
+html[lang="he"] .service-title,
+html[dir="rtl"] .service-title {
+    font-size: 2.75rem;
+}
+
+html[lang="he"] .service-description,
+html[dir="rtl"] .service-description {
+    font-size: 1.2rem;
+}
+
+html[lang="he"] .menu-category-title,
+html[dir="rtl"] .menu-category-title {
+    font-size: 4rem;
+}
+
+html[lang="he"] .menu-item-name,
+html[dir="rtl"] .menu-item-name {
+    font-size: 1.65rem;
+}
+
+html[lang="he"] .menu-item-description,
+html[dir="rtl"] .menu-item-description {
+    font-size: 1.15rem;
+}
+
+html[lang="he"] .about-text,
+html[dir="rtl"] .about-text {
+    font-size: 1.25rem;
+}
+
+html[lang="he"] .testimonial-text,
+html[dir="rtl"] .testimonial-text {
+    font-size: 1.25rem;
+}
+
+html[lang="he"] .hero-badge,
+html[dir="rtl"] .hero-badge {
+    font-size: 1.15rem;
+    padding: 1rem 3rem;
+    letter-spacing: 6px;
+    font-weight: 600;
+}
+
 /* Custom cursor effect for interactive elements */
 .cta-button, .service-card, .menu-item, .gallery-item, .testimonial-card {
     cursor: pointer;
@@ -255,8 +341,8 @@ body {
 }
 
 .logo-img {
-    height: 60px;
-    width: 60px;
+    height: 65px;
+    width: 65px;
     transition: none;
     filter: none;
     animation: none;
@@ -264,7 +350,7 @@ body {
 }
 
 .logo-text-img {
-    height: 55px;
+    height: 60px;
     width: auto;
     transition: none;
     opacity: 1;
@@ -369,7 +455,7 @@ body {
     transition: all 0.3s ease;
     position: relative;
     padding: 0.5rem 0;
-    font-size: 0.9rem;
+    font-size: 1rem;
     letter-spacing: 1px;
     text-transform: uppercase;
     font-family: 'Inter', sans-serif;
@@ -517,7 +603,7 @@ body {
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, rgba(250, 250, 250, 0.4) 0%, rgba(255, 255, 255, 0.6) 100%);
+    background: linear-gradient(180deg, rgba(250, 250, 250, 0.5) 0%, rgba(255, 255, 255, 0.7) 100%);
     z-index: 1;
 }
 
@@ -532,22 +618,23 @@ body {
 
 .hero-badge {
     display: inline-block;
-    padding: 0.6rem 2rem;
-    background: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 0.9rem 2.5rem;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1.5px solid var(--primary);
     border-radius: 0;
-    color: var(--text-light);
-    font-weight: 400;
-    font-size: 0.8rem;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1rem;
     margin-bottom: 4rem;
     text-transform: uppercase;
     letter-spacing: 5px;
-    box-shadow: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     animation: fadeInUp 1s ease-out 0.5s both;
     backdrop-filter: none;
     position: relative;
     overflow: visible;
     font-family: 'Inter', sans-serif;
+    z-index: 10;
 }
 
 .hero-badge::before,
